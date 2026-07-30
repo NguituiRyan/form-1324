@@ -185,6 +185,7 @@ export default function TrainingApp() {
   function saveCustomPlan() {
     const next = { name: planName.trim() || "My training week", exerciseIds: builderIds };
     localStorage.setItem("form1324-plan", JSON.stringify(next));
+    localStorage.setItem("form1324-active", JSON.stringify({ name: next.name, ids: next.exerciseIds }));
     setSavedPlan(next);
     setActivePlan(null);
     document.querySelector("#today")?.scrollIntoView({ behavior: "smooth" });
@@ -205,7 +206,7 @@ export default function TrainingApp() {
         <nav aria-label="Primary navigation">
           <a href="#plans">Plans</a><a href="#library">Exercises</a><a href="#builder">Build your own</a>
         </nav>
-        <a className="header-cta" href="#today">My training <span>↗</span></a>
+        <a className="header-cta" href="/routine">My routine <span>↗</span></a>
       </header>
 
       <section className="hero" id="top">
@@ -247,7 +248,7 @@ export default function TrainingApp() {
                 {Array.from({ length: 7 }).map((_, day) => <i key={day} className={day < plan.days ? "active" : ""}>{["M", "T", "W", "T", "F", "S", "S"][day]}</i>)}
               </div>
               <div className="plan-meta"><span>{plan.days} days / week</span><span>{plan.minutes} min</span><span>{plan.level}</span></div>
-              <button onClick={() => { setActivePlan(plan); document.querySelector("#today")?.scrollIntoView({ behavior: "smooth" }); }}>Start this plan <span>→</span></button>
+              <button onClick={() => { setActivePlan(plan); localStorage.setItem("form1324-active", JSON.stringify({ name: plan.name, ids: plan.exerciseIds })); document.querySelector("#today")?.scrollIntoView({ behavior: "smooth" }); }}>Start this plan <span>→</span></button>
             </article>
           ))}
         </div>
