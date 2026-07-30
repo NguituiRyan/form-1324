@@ -65,6 +65,15 @@ export default function RoutinePage() {
     if (completed) setDone(JSON.parse(completed));
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add("is-visible")),
+      { threshold: 0.08 },
+    );
+    const frame = requestAnimationFrame(() => document.querySelectorAll(".reveal").forEach((item) => observer.observe(item)));
+    return () => { cancelAnimationFrame(frame); observer.disconnect(); };
+  }, [exercises, openId]);
+
   const routine = useMemo(() => {
     if (!exercises.length) return [];
     const identifiers = plan?.ids?.length ? plan.ids : fallbackNames;
@@ -107,7 +116,8 @@ export default function RoutinePage() {
         </div>
       </section>
 
-      <section className="routine-workspace">
+      <div className="motion-ribbon motion-ribbon--dark" aria-hidden="true"><div>YOUR WEEK <i>✦</i> QUALITY REPS <i>✦</i> TRACK PROGRESS <i>✦</i> RECOVER HARD <i>✦</i> YOUR WEEK <i>✦</i></div></div>
+      <section className="routine-workspace reveal">
         <aside className="week-rail">
           <p>THIS WEEK</p>
           {days.map((day, index) => (
@@ -140,7 +150,7 @@ export default function RoutinePage() {
         </div>
       </section>
 
-      <section className="live-tips">
+      <section className="live-tips reveal">
         <div><p className="kicker"><span /> WHILE YOU LIFT</p><h2>Good reps<br />over ego reps.</h2></div>
         <div className="tips-grid">
           <article><b>01</b><h3>Brace before you move</h3><p>Take a breath, make your torso rigid, then begin the rep. Re-brace when needed instead of rushing.</p></article>
@@ -152,7 +162,7 @@ export default function RoutinePage() {
         </div>
       </section>
 
-      <section className="research-section" id="research">
+      <section className="research-section reveal" id="research">
         <div className="section-heading"><div><p className="kicker"><span /> EVIDENCE + COACHING</p><h2>Choose the split<br />you can repeat.</h2></div><p>There is no universally superior split. When weekly volume is matched, the schedule is mainly a tool for distributing quality work and recovery.</p></div>
         <div className="split-cards">
           <article><span>3 DAYS</span><h3>Full body</h3><p>Best starting point when time is limited. Frequent practice, simple progression, fewer weekly gym trips.</p><b>MON · WED · FRI</b></article>
@@ -168,6 +178,7 @@ export default function RoutinePage() {
         </div>
         <p className="medical-note">General educational guidance—not individualized medical or coaching advice. If you have pain, an injury, a medical condition, or uncertainty about technique, work with an appropriately qualified professional.</p>
       </section>
+      <nav className="mobile-dock" aria-label="Mobile navigation"><a href="/"><b>⌂</b><span>Home</span></a><a href="/#plans"><b>◫</b><span>Plans</span></a><a href="#research"><b>◎</b><span>Research</span></a><a href="#top" className="active"><b>↗</b><span>Routine</span></a></nav>
     </main>
   );
 }

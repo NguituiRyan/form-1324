@@ -148,6 +148,15 @@ export default function TrainingApp() {
     if (done) setCompleted(JSON.parse(done));
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add("is-visible")),
+      { threshold: 0.08 },
+    );
+    const frame = requestAnimationFrame(() => document.querySelectorAll(".reveal").forEach((item) => observer.observe(item)));
+    return () => { cancelAnimationFrame(frame); observer.disconnect(); };
+  }, [exercises, libraryOpen]);
+
   const plans = useMemo<Plan[]>(
     () =>
       planBlueprints.map(({ names, ...plan }) => ({
@@ -233,8 +242,9 @@ export default function TrainingApp() {
           <span className="visual-label visual-label--legs">LEGS <i /></span>
         </div>
       </section>
+      <div className="motion-ribbon" aria-hidden="true"><div>TRAIN SMARTER <i>✦</i> MOVE BETTER <i>✦</i> BUILD CONSISTENCY <i>✦</i> 1,324 EXERCISES <i>✦</i> TRAIN SMARTER <i>✦</i> MOVE BETTER <i>✦</i></div></div>
 
-      <section className="plans-section" id="plans">
+      <section className="plans-section reveal" id="plans">
         <div className="section-heading">
           <div><p className="kicker"><span /> READY-MADE PROGRAMS</p><h2>Pick your path.</h2></div>
           <p>Clear schedules, smart exercise selection, and room to progress. Choose one and start today.</p>
@@ -254,7 +264,7 @@ export default function TrainingApp() {
         </div>
       </section>
 
-      <section className="today-section" id="today">
+      <section className="today-section reveal" id="today">
         <div className="section-heading section-heading--light">
           <div><p className="kicker"><span /> YOUR TRAINING</p><h2>{activePlan?.name ?? savedPlan?.name ?? "Nothing scheduled yet."}</h2></div>
           {activeExercises.length > 0 && (
@@ -278,7 +288,7 @@ export default function TrainingApp() {
         )}
       </section>
 
-      <section className="library-section" id="library">
+      <section className="library-section reveal" id="library">
         <div className="section-heading">
           <div><p className="kicker"><span /> EXPLORE THE LIBRARY</p><h2>Know every move.</h2></div>
           <p>Search 1,324 movements by muscle, equipment, or name. Every exercise includes clear technique steps.</p>
@@ -308,7 +318,7 @@ export default function TrainingApp() {
         <button className="load-more" onClick={() => setLibraryOpen((value) => !value)}>{libraryOpen ? "Show fewer exercises" : "Explore more exercises"} <span>↓</span></button>
       </section>
 
-      <section className="builder-section" id="builder">
+      <section className="builder-section reveal" id="builder">
         <div className="builder-copy">
           <p className="kicker"><span /> YOUR RULES</p><h2>Build your own.</h2>
           <p>Pick movements from the library, arrange a focused session, and save it on this device.</p>
@@ -332,6 +342,7 @@ export default function TrainingApp() {
         <p>Train with intent. Progress with patience.</p>
         <div>Exercise data and demonstrations from <a href="https://github.com/hasaneyldrm/exercises-dataset" target="_blank" rel="noreferrer">hasaneyldrm/exercises-dataset</a>.<br />Exercise media © <a href="https://gymvisual.com/" target="_blank" rel="noreferrer">Gym visual</a>. Used with visible attribution.</div>
       </footer>
+      <nav className="mobile-dock" aria-label="Mobile navigation"><a href="#top"><b>⌂</b><span>Home</span></a><a href="#plans"><b>◫</b><span>Plans</span></a><a href="#library"><b>⌕</b><span>Explore</span></a><a href="/routine"><b>↗</b><span>Routine</span></a></nav>
 
       {selected && (
         <div className="modal-backdrop" role="presentation" onMouseDown={() => setSelected(null)}>
