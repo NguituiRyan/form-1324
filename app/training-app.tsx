@@ -11,6 +11,9 @@ type Exercise = {
   muscleGroup: string;
   secondaryMuscles: string[];
   steps: string[];
+  image: string;
+  gif: string;
+  attribution: string;
 };
 
 type Plan = {
@@ -95,21 +98,28 @@ function resolveExercise(exercises: Exercise[], wanted: string) {
     ?? exercises.find((item) => normalize(item.name).includes(normalize(wanted)));
 }
 
-function BodyGlyph({ bodyPart, compact = false }: { bodyPart: string; compact?: boolean }) {
-  const accent = bodyColors[bodyPart] ?? "#b8f34a";
+const mediaUrl = (path: string) =>
+  `https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/${path}`;
+
+function ExerciseMedia({
+  exercise,
+  compact = false,
+  animated = false,
+}: {
+  exercise?: Exercise;
+  compact?: boolean;
+  animated?: boolean;
+}) {
+  if (!exercise) {
+    return <div className={`exercise-media exercise-media--loading ${compact ? "exercise-media--compact" : ""}`} />;
+  }
   return (
     <div
-      className={`body-glyph ${compact ? "body-glyph--compact" : ""}`}
-      style={{ "--muscle": accent } as React.CSSProperties}
-      aria-label={`${bodyPart} muscle map`}
+      className={`exercise-media ${compact ? "exercise-media--compact" : ""}`}
+      style={{ "--muscle": bodyColors[exercise.bodyPart] ?? "#b8f34a" } as React.CSSProperties}
     >
-      <span className="glyph-head" />
-      <span className="glyph-torso" />
-      <span className="glyph-arm glyph-arm--left" />
-      <span className="glyph-arm glyph-arm--right" />
-      <span className="glyph-leg glyph-leg--left" />
-      <span className="glyph-leg glyph-leg--right" />
-      <span className={`glyph-focus glyph-focus--${bodyPart.replace(" ", "-")}`} />
+      <img src={mediaUrl(animated ? exercise.gif : exercise.image)} alt={`${titleCase(exercise.name)} demonstration`} loading={compact ? "lazy" : "eager"} />
+      {!compact && <small>© Gym visual</small>}
     </div>
   );
 }
@@ -215,7 +225,7 @@ export default function TrainingApp() {
         </div>
         <div className="hero-visual">
           <div className="hero-orbit hero-orbit--one" /><div className="hero-orbit hero-orbit--two" />
-          <BodyGlyph bodyPart="chest" />
+          <ExerciseMedia exercise={exercises.find((exercise) => exercise.id === "0025")} animated />
           <div className="floating-card floating-card--top"><small>TODAY / PUSH</small><strong>6 movements</strong><span>45 min · moderate</span></div>
           <div className="floating-card floating-card--bottom"><div className="pulse-dot" /><span><small>WEEKLY RHYTHM</small><strong>3 of 4 sessions</strong></span></div>
           <span className="visual-label visual-label--chest">CHEST <i /></span>
@@ -255,7 +265,7 @@ export default function TrainingApp() {
             {activeExercises.map((exercise, index) => (
               <button className={`session-row ${completed.includes(exercise.id) ? "is-done" : ""}`} key={exercise.id} onClick={() => toggleCompleted(exercise.id)}>
                 <span className="session-check">{completed.includes(exercise.id) ? "✓" : index + 1}</span>
-                <BodyGlyph bodyPart={exercise.bodyPart} compact />
+                <ExerciseMedia exercise={exercise} compact />
                 <span className="session-name"><strong>{titleCase(exercise.name)}</strong><small>{titleCase(exercise.target)} · {titleCase(exercise.equipment)}</small></span>
                 <span className="session-dose">3 × {index % 3 === 0 ? "8" : "12"}</span>
                 <span className="session-action">{completed.includes(exercise.id) ? "Done" : "Mark done"}</span>
@@ -285,7 +295,7 @@ export default function TrainingApp() {
           {filtered.map((exercise) => (
             <article className="exercise-card" key={exercise.id}>
               <button className="exercise-visual" onClick={() => setSelected(exercise)} aria-label={`View ${exercise.name}`}>
-                <BodyGlyph bodyPart={exercise.bodyPart} /><span className="body-pill">{titleCase(exercise.bodyPart)}</span><span className="exercise-number">#{exercise.id}</span>
+                <ExerciseMedia exercise={exercise} animated /><span className="body-pill">{titleCase(exercise.bodyPart)}</span><span className="exercise-number">#{exercise.id}</span>
               </button>
               <div className="exercise-info">
                 <small>{titleCase(exercise.equipment)}</small><h3>{titleCase(exercise.name)}</h3><p>Targets {titleCase(exercise.target)}</p>
@@ -307,7 +317,7 @@ export default function TrainingApp() {
           <div className="builder-top"><label>PLAN NAME<input value={planName} onChange={(event) => setPlanName(event.target.value)} maxLength={48} /></label><span>{builderIds.length} / 12 MOVEMENTS</span></div>
           <div className="builder-list">
             {builderExercises.length ? builderExercises.map((exercise, index) => (
-              <div key={exercise.id}><span className="drag-handle">⋮⋮</span><b>{String(index + 1).padStart(2, "0")}</b><BodyGlyph bodyPart={exercise.bodyPart} compact /><p><strong>{titleCase(exercise.name)}</strong><small>{titleCase(exercise.target)} · {titleCase(exercise.equipment)}</small></p><button onClick={() => toggleBuilder(exercise.id)} aria-label={`Remove ${exercise.name}`}>×</button></div>
+              <div key={exercise.id}><span className="drag-handle">⋮⋮</span><b>{String(index + 1).padStart(2, "0")}</b><ExerciseMedia exercise={exercise} compact /><p><strong>{titleCase(exercise.name)}</strong><small>{titleCase(exercise.target)} · {titleCase(exercise.equipment)}</small></p><button onClick={() => toggleBuilder(exercise.id)} aria-label={`Remove ${exercise.name}`}>×</button></div>
             )) : (
               <div className="builder-empty"><span>+</span><p>Your plan is waiting.<br /><small>Add exercises from the library above.</small></p></div>
             )}
@@ -319,14 +329,14 @@ export default function TrainingApp() {
       <footer>
         <a className="brand brand--footer" href="#top"><span>FORM</span><i>/</i><b>1324</b></a>
         <p>Train with intent. Progress with patience.</p>
-        <div>Exercise data from <a href="https://github.com/hasaneyldrm/exercises-dataset" target="_blank" rel="noreferrer">hasaneyldrm/exercises-dataset</a> · MIT licensed.<br />This experience uses dataset text only; exercise media is not redistributed.</div>
+        <div>Exercise data and demonstrations from <a href="https://github.com/hasaneyldrm/exercises-dataset" target="_blank" rel="noreferrer">hasaneyldrm/exercises-dataset</a>.<br />Exercise media © <a href="https://gymvisual.com/" target="_blank" rel="noreferrer">Gym visual</a>. Used with visible attribution.</div>
       </footer>
 
       {selected && (
         <div className="modal-backdrop" role="presentation" onMouseDown={() => setSelected(null)}>
           <article className="exercise-modal" role="dialog" aria-modal="true" aria-label={selected.name} onMouseDown={(event) => event.stopPropagation()}>
             <button className="modal-close" onClick={() => setSelected(null)} aria-label="Close exercise details">×</button>
-            <div className="modal-visual"><BodyGlyph bodyPart={selected.bodyPart} /><span>{titleCase(selected.bodyPart)}</span></div>
+            <div className="modal-visual"><ExerciseMedia exercise={selected} animated /><span>{titleCase(selected.bodyPart)}</span></div>
             <div className="modal-content">
               <p className="kicker"><span /> EXERCISE #{selected.id}</p><h2>{titleCase(selected.name)}</h2>
               <div className="modal-tags"><span>{titleCase(selected.target)}</span><span>{titleCase(selected.equipment)}</span><span>{titleCase(selected.muscleGroup)}</span></div>

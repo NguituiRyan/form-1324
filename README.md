@@ -29,6 +29,7 @@ npm run build
 
 Exercise names, categories, muscles, equipment, and English instructions are
 derived from `hasaneyldrm/exercises-dataset` and used under its MIT license.
-The source repository's images and animations have separate Gym visual terms
-and are intentionally not redistributed here. FORM / 1324 uses original
-code-native muscle maps instead.
+The source repository's images and animations are displayed from the upstream
+repository with visible **© Gym visual** attribution. Those media assets remain
+subject to Gym visual's separate terms; deploying this project does not grant
+an independent media license.

@@ -14,6 +14,9 @@ const compact = records.map((exercise) => ({
   muscleGroup: exercise.muscle_group,
   secondaryMuscles: exercise.secondary_muscles ?? [],
   steps: exercise.instruction_steps?.en ?? [],
+  image: exercise.image,
+  gif: exercise.gif_url,
+  attribution: exercise.attribution,
 }));
 
 const output = resolve("public/data/exercises.json");

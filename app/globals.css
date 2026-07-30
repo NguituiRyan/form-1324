@@ -124,6 +124,50 @@ h1 em { font-family: Georgia, serif; font-weight: 400; text-transform: lowercase
 .body-glyph--compact { width: 33px; height: 70px; transform: scale(.32); transform-origin: center; margin: -24px 4px; }
 @keyframes pulse { 50% { transform: scale(1.25); box-shadow: 0 0 26px var(--muscle); } }
 
+.exercise-media {
+  width: min(280px, 72%);
+  aspect-ratio: 1;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  background: #f7f7f4;
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 24px 65px rgba(0,0,0,.28);
+}
+.exercise-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.07);
+}
+.exercise-media img { width: 100%; height: 100%; display: block; object-fit: cover; image-rendering: auto; }
+.exercise-media small {
+  position: absolute;
+  right: 7px;
+  bottom: 6px;
+  z-index: 2;
+  padding: 4px 6px;
+  background: rgba(20,22,18,.82);
+  color: white;
+  font: 7px Arial, sans-serif;
+  letter-spacing: .4px;
+}
+.exercise-media--compact {
+  width: 45px;
+  height: 45px;
+  aspect-ratio: 1;
+  border-radius: 2px;
+  box-shadow: none;
+  background: #eee;
+}
+.exercise-media--loading { background: linear-gradient(110deg,#262a23 30%,#343930 45%,#262a23 60%); background-size: 220% 100%; animation: mediaLoading 1.4s linear infinite; }
+@keyframes mediaLoading { to { background-position-x: -220%; } }
+.hero-visual > .exercise-media { width: 280px; transform: rotate(-2deg); z-index: 2; box-shadow: 18px 22px 0 var(--lime), 0 30px 80px rgba(0,0,0,.5); }
+.exercise-visual .exercise-media { width: 180px; height: 180px; box-shadow: none; transition: transform .28s ease; }
+.exercise-visual:hover .exercise-media { transform: scale(1.06); }
+.modal-visual .exercise-media { width: min(310px, 78%); box-shadow: 18px 18px 0 var(--lime); }
+
 .plans-section, .library-section { padding: 110px 5vw 120px; }
 .section-heading { display: grid; grid-template-columns: 1fr 340px; align-items: end; gap: 40px; margin-bottom: 55px; }
 .section-heading h2, .builder-copy h2, .modal-content h2 { font-size: clamp(50px, 6vw, 90px); text-transform: uppercase; letter-spacing: -.065em; line-height: .87; margin: 0; }
