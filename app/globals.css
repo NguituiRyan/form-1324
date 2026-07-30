@@ -382,7 +382,7 @@ body::before {
 .brand span { position: relative; }
 .brand span::after { content: ""; position: absolute; width: 6px; height: 6px; border-radius: 50%; background: var(--lime); right: -9px; top: -1px; box-shadow: 0 0 16px var(--lime); }
 .hero-copy { position: relative; isolation: isolate; }
-.hero-copy::before { content: "FORM"; position: absolute; left: -2vw; bottom: 2%; font-size: clamp(130px,20vw,360px); font-weight: 900; letter-spacing: -.08em; color: rgba(0,0,0,.026); z-index: -1; line-height: .7; }
+.hero-copy::before { content: "NGUITUI"; position: absolute; left: -2vw; bottom: 2%; font-size: clamp(100px,16vw,290px); font-weight: 900; letter-spacing: -.08em; color: rgba(0,0,0,.026); z-index: -1; line-height: .7; }
 .hero h1 { animation: heroRise .9s cubic-bezier(.2,.75,.2,1) both; }
 .hero-sub, .hero-actions, .hero-stats { animation: heroRise .9s .14s cubic-bezier(.2,.75,.2,1) both; }
 .hero-visual { background: radial-gradient(circle at 50% 45%,#343a2c 0,#1d201b 45%,#11130f 100%); }

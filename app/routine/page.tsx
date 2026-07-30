@@ -97,7 +97,7 @@ export default function RoutinePage() {
   return (
     <main className="routine-page">
       <header className="site-header">
-        <a className="brand" href="/"><span>FORM</span><i>/</i><b>1324</b></a>
+        <a className="brand" href="/"><span>NGUITUI</span><i>/</i><b>FITNESS</b></a>
         <nav><a href="/#plans">Plans</a><a href="/#library">Exercises</a><a href="#research">Split research</a></nav>
         <a className="header-cta" href="/">Edit plan <span>↗</span></a>
       </header>

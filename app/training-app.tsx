@@ -211,7 +211,7 @@ export default function TrainingApp() {
   return (
     <main>
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="FORM 1324 home"><span>FORM</span><i>/</i><b>1324</b></a>
+        <a className="brand" href="#top" aria-label="Nguitui Fitness home"><span>NGUITUI</span><i>/</i><b>FITNESS</b></a>
         <nav aria-label="Primary navigation">
           <a href="#plans">Plans</a><a href="#library">Exercises</a><a href="#builder">Build your own</a>
         </nav>
@@ -242,7 +242,7 @@ export default function TrainingApp() {
           <span className="visual-label visual-label--legs">LEGS <i /></span>
         </div>
       </section>
-      <div className="motion-ribbon" aria-hidden="true"><div>TRAIN SMARTER <i>✦</i> MOVE BETTER <i>✦</i> BUILD CONSISTENCY <i>✦</i> 1,324 EXERCISES <i>✦</i> TRAIN SMARTER <i>✦</i> MOVE BETTER <i>✦</i></div></div>
+      <div className="motion-ribbon" aria-hidden="true"><div>NGUITUI FITNESS <i>✦</i> TRAIN SMARTER <i>✦</i> MOVE BETTER <i>✦</i> 1,324 EXERCISES <i>✦</i> NGUITUI FITNESS <i>✦</i> TRAIN SMARTER <i>✦</i></div></div>
 
       <section className="plans-section reveal" id="plans">
         <div className="section-heading">
@@ -338,7 +338,7 @@ export default function TrainingApp() {
       </section>
 
       <footer>
-        <a className="brand brand--footer" href="#top"><span>FORM</span><i>/</i><b>1324</b></a>
+        <a className="brand brand--footer" href="#top"><span>NGUITUI</span><i>/</i><b>FITNESS</b></a>
         <p>Train with intent. Progress with patience.</p>
         <div>Exercise data and demonstrations from <a href="https://github.com/hasaneyldrm/exercises-dataset" target="_blank" rel="noreferrer">hasaneyldrm/exercises-dataset</a>.<br />Exercise media © <a href="https://gymvisual.com/" target="_blank" rel="noreferrer">Gym visual</a>. Used with visible attribution.</div>
       </footer>
