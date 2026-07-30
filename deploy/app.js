@@ -1,5 +1,5 @@
 const root = document.querySelector("#app");
-const DATA = "https://cdn.jsdelivr.net/gh/NguituiRyan/form-1324@main/public/data/exercises.json";
+const DATA = window.FORM_DATA || "https://cdn.jsdelivr.net/gh/NguituiRyan/form-1324@main/public/data/exercises.json";
 const state = { all: [], added: JSON.parse(localStorage.getItem("form1324-builder") || "[]"), active: JSON.parse(localStorage.getItem("form1324-active") || "null"), done: JSON.parse(localStorage.getItem("form1324-completed") || "[]") };
 const plans = [
   ["The Foundation","START HERE","A balanced full-body base. Learn the patterns, own the form.",3,45,["squat to overhead reach","push-up","walking lunge","front plank with twist","bench pull-ups","bodyweight standing calf raise"]],
